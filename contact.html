@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ender Tekstil - İletişim</title>
+  <style>
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      margin: 0; 
+      padding: 0; 
+      background: linear-gradient(to bottom, #100031, #141313); 
+    }
+    header, nav, footer, .container { 
+      background: linear-gradient(to right, #100031, #3a3a52); 
+      padding: 10px 20px; 
+      text-align: center; 
+    }
+    nav a { 
+      margin: 0 10px; 
+      text-decoration: underline; 
+      color: #ffffff; 
+    }
+    h1, h2, h3 { 
+      color: #ffffff; 
+    }
+    p { 
+      color: #ffffff; 
+    }
+    footer p { 
+      color: #ffffff; 
+    }
+    header {
+      background: linear-gradient(to right, #100031, #3a3a52);
+      padding: 20px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      color: #ffffff;
+      font-size: 2em;
+      font-weight: bold;
+      text-decoration: none;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .main-nav {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-link {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.1em;
+      padding: 8px 15px;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-link:hover {
+      background: rgba(76, 175, 80, 0.2);
+    }
+
+    .nav-link.active {
+      background: #4CAF50;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      background: #4CAF50;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-link:hover::after {
+      width: 70%;
+    }
+
+    .cart-link {
+      position: relative;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #4CAF50;
+      color: white;
+      font-size: 0.8em;
+      padding: 2px 6px;
+      border-radius: 50%;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .main-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo">Ender Tekstil</a>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Ana Sayfa</a>
+        <a href="products.html" class="nav-link">Ürünlerimiz</a>
+        <a href="cart.html" class="nav-link cart-link">
+          Sepetim
+          <span class="cart-count" id="cartCount">0</span>
+        </a>
+        <a href="contact.html" class="nav-link active">İletişim</a>
+      </nav>
+    </div>
+  </header>
+  
+  <div class="container">
+    <h2>İletişim</h2>
+    <p>Ürünlerimizi satın almak için bu numaradan ulaşabilirsiniz: <a href="tel:+905078681969">+90 507 868 19 69</a></p>
+    
+    <h3>Adres ve İletişim Bilgileri</h3>
+    <p>Güllük Mahallesi Yunus Emre Caddesi B/6 Melikgazi Toptancılar Çarşısı Kayseri</p>
+    
+  
+    <p><strong>Konum:</strong> <a href="https://www.google.com/maps/place/Ender+Giyim/@38.7214511,35.4862265,17z/data=!3m1!4b1!4m6!3m5!1s0x152b120455075d4d:0xecfdc77cc001add1!8m2!3d38.7214511!4d35.4862265!16s%2Fg%2F11bycfsrq5?hl=tr&entry=ttu&g_ep=EgoyMDI1MDIxMi4wIKXMDSoASAFQAw%3D%3D" target="_blank">Google Maps</a></p>
+  </div>
+  
+  <footer>
+    <p>&copy; 2025 Ender Tekstil. Tüm hakları saklıdır.</p>
+  </footer>
+
+  <script>
+    // Sepetteki ürün sayısını güncelle
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      document.getElementById('cartCount').textContent = cart.length;
+    }
+
+    // Sayfa yüklendiğinde sepet sayısını güncelle
+    document.addEventListener('DOMContentLoaded', updateCartCount);
+  </script>
+</body>
+</html>

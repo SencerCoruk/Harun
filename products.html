@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ender Tekstil - Ürünlerimiz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      margin: 0; 
+      padding: 0; 
+      background: linear-gradient(to bottom, #100031, #141313); 
+    }
+    header, nav, footer, .container { 
+      background: linear-gradient(to right, #100031, #3a3a52); 
+      padding: 10px 20px; 
+      text-align: center; 
+    }
+    nav a { 
+      margin: 0 10px; 
+      text-decoration: underline; 
+      color: #ffffff; 
+    }
+    h1, h2, h3 { 
+      color: #ffffff; 
+    }
+    ul, p { 
+      color: #ffffff; 
+    }
+    footer p { 
+      color: #ffffff; 
+    }
+    .subcategory-nav { 
+      background-color: #eaeaea; 
+      padding: 10px; 
+      margin-bottom: 20px; 
+    }
+    .subcategory-nav a { 
+      margin-right: 15px; 
+      text-decoration: none; 
+      color: #333; 
+    }
+    section { 
+      margin-bottom: 40px; 
+    }
+    .subcategory { 
+      display: flex; 
+      flex-wrap: wrap; 
+      justify-content: center; 
+    }
+    .subcategory-item { 
+      margin: 10px; 
+      text-align: center; 
+    }
+    .subcategory-item img { 
+      max-width: 100%; 
+      height: auto; 
+      border-radius: 8px; 
+    }
+    .image-box {
+      border: 2px solid #ffffff;
+      padding: 10px;
+      margin: 10px;
+      display: inline-block;
+      border-radius: 8px;
+      max-width: 200px; /* Adjusted size */
+    }
+    .image-box img {
+      max-width: 100%;
+      height: auto;
+    }
+    .add-to-cart {
+      background-color: #4CAF50; /* Green */
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px 2px;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      padding: 20px;
+    }
+
+    .product-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .product-card:hover .product-image {
+      transform: scale(1.05);
+    }
+
+    .product-info {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .product-name {
+      font-size: 1.2em;
+      margin: 10px 0;
+      color: #ffffff;
+    }
+
+    .product-price {
+      font-size: 1.1em;
+      color: #4CAF50;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .add-to-cart {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(45deg, #4CAF50, #45a049);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1em;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+
+    .add-to-cart:hover {
+      opacity: 0.9;
+    }
+
+    .category-title {
+      text-align: center;
+      font-size: 2em;
+      margin: 30px 0;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+    }
+
+    .category-title::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 3px;
+      background: #4CAF50;
+      margin: 10px auto;
+    }
+
+    .product-section {
+      display: none; /* Başlangıçta tüm ürün bölümleri gizli */
+    }
+
+    .category-nav {
+      position: sticky;
+      top: 0;
+      background: rgba(16, 0, 49, 0.95);
+      padding: 15px;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .category-nav a {
+      padding: 8px 15px;
+      color: white;
+      text-decoration: none;
+      border-radius: 20px;
+      transition: background 0.3s;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .category-nav a:hover {
+      background: rgba(76, 175, 80, 0.5);
+    }
+
+    .category-nav a.active {
+      background: #4CAF50;
+    }
+
+    /* Filtreleme stilleri */
+    .filters-section {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-group select {
+      padding: 8px 15px;
+      border-radius: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Stok badge'i */
+    .stock-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(76, 175, 80, 0.9);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.8em;
+    }
+
+    .out-of-stock .stock-badge {
+      background: rgba(244, 67, 54, 0.9);
+    }
+
+    /* Hızlı görüntüleme butonu */
+    .quick-view-btn {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      transform: translate(-50%, 50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      cursor: pointer;
+    }
+
+    .product-card:hover .quick-view-btn {
+      opacity: 1;
+    }
+
+    /* Modal stilleri */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+    }
+
+    .modal-content {
+      position: relative;
+      background: linear-gradient(to right, #100031, #3a3a52);
+      margin: 5% auto;
+      padding: 20px;
+      width: 80%;
+      max-width: 800px;
+      border-radius: 15px;
+    }
+
+    .close-modal {
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      font-size: 30px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .modal-body {
+      display: flex;
+      gap: 30px;
+    }
+
+    .modal-image {
+      flex: 1;
+    }
+
+    .modal-image img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .modal-info {
+      flex: 1;
+      color: white;
+    }
+
+    .welcome-message {
+      text-align: center;
+      padding: 50px 20px;
+      margin: 20px auto;
+      max-width: 800px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .welcome-message h1 {
+      color: #ffffff;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .welcome-message p {
+      color: #4CAF50;
+      font-size: 1.5em;
+      margin-bottom: 30px;
+    }
+
+    .features {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .feature {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #ffffff;
+      gap: 10px;
+    }
+
+    .feature i {
+      font-size: 2em;
+      color: #4CAF50;
+    }
+
+    .feature span {
+      font-size: 1.1em;
+    }
+
+    /* Kategori seçildiğinde karşılama mesajını gizle */
+    .welcome-message.hidden {
+      display: none;
+    }
+
+    header {
+      background: linear-gradient(to right, #100031, #3a3a52);
+      padding: 20px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      color: #ffffff;
+      font-size: 2em;
+      font-weight: bold;
+      text-decoration: none;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .main-nav {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-link {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.1em;
+      padding: 8px 15px;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-link:hover {
+      background: rgba(76, 175, 80, 0.2);
+    }
+
+    .nav-link.active {
+      background: #4CAF50;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      background: #4CAF50;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-link:hover::after {
+      width: 70%;
+    }
+
+    .cart-link {
+      position: relative;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #4CAF50;
+      color: white;
+      font-size: 0.8em;
+      padding: 2px 6px;
+      border-radius: 50%;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .main-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+      }
+    }
+  </style>
+  <script>
+    function addToCart(productName, productPrice, imageUrl) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      
+      cart.push({
+        name: productName,
+        price: productPrice,
+        image: imageUrl
+      });
+      
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${productName} ürün sepetinize eklendi :)`);
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo">Ender Tekstil</a>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Ana Sayfa</a>
+        <a href="products.html" class="nav-link active">Ürünlerimiz</a>
+        <a href="cart.html" class="nav-link cart-link">
+          Sepetim
+          <span class="cart-count" id="cartCount">0</span>
+        </a>
+        <a href="contact.html" class="nav-link">İletişim</a>
+      </nav>
+    </div>
+  </header>
+  
+  <div class="container">
+    <h2>Ürünlerimiz</h2>
+    <!-- Kategori navigasyonu -->
+    <div class="category-nav">
+      <a href="#" onclick="showCategory('elbise')">Elbise</a>
+      <a href="#" onclick="showCategory('takim')">Takım</a>
+      <a href="#" onclick="showCategory('pantolon')">Pantolon</a>
+      <a href="#" onclick="showCategory('etek')">Etek</a>
+      <a href="#" onclick="showCategory('salvar')">Şalvar</a>
+      <a href="#" onclick="showCategory('tunik')">Tunik</a>
+      <a href="#" onclick="showCategory('yelek-ceket')">Yelek/Ceket</a>
+    </div>
+    
+    <!-- Kategori navigasyonu üstündeki karşılama mesajı -->
+    <div class="welcome-message" id="welcomeMessage">
+      <h1>Ender Tekstil'e Hoş Geldiniz</h1>
+      <p>Modanın ve Zarafetin Buluşma Noktası</p>
+      <div class="features">
+        <div class="feature">
+          <i class="fas fa-star"></i>
+          <span>Kaliteli Kumaş</span>
+        </div>
+        <div class="feature">
+          <i class="fas fa-truck"></i>
+          <span>Hızlı Teslimat</span>
+        </div>
+        <div class="feature">
+          <i class="fas fa-check-circle"></i>
+          <span>%100 Müşteri Memnuniyeti</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Ürün bölümleri -->
+    <section id="elbise" class="product-section">
+      <h2 class="category-title">Elbise</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="stock-badge">Stokta: 5 adet</div>
+          <img src="1.jpeg" alt="Model 1" class="product-image">
+          <div class="quick-view-btn" onclick="showQuickView('Model 1', '500 TL', '1.jpeg', 5, 'Şık ve modern tasarım.')">
+            Hızlı Bakış
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">Model 1</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 1', '500 TL', '1.jpeg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <img src="2.jpeg" alt="Model 2" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 2</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 2', '500 TL', '2.jpeg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <img src="3.jpeg" alt="Model 3" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 3</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 3', '500 TL', '3.jpeg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="takim" class="product-section">
+      <h2 class="category-title">Takım</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <img src="4.jpg" alt="Model 4" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 4</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 4', '500 TL', '4.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <img src="5.jpg" alt="Model 5" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 5</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 5', '500 TL', '5.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <img src="6.jpg" alt="Model 6" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 6</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 6', '500 TL', '6.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="pantolon" class="product-section">
+      <h2 class="category-title">Pantolon</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <img src="7.jpg" alt="Model 7" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 7</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 7', '500 TL', '7.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <img src="8.jpg" alt="Model 8" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 8</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 8', '500 TL', '8.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <img src="9.jpg" alt="Model 9" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 9</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 9', '500 TL', '9.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="etek" class="product-section">
+      <h2 class="category-title">Etek</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <img src="10.jpg" alt="Model 10" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 10</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 10', '500 TL', '10.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <img src="11.jpg" alt="Model 11" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 11</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 11', '500 TL', '11.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <img src="12.jpg" alt="Model 12" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 12</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 12', '500 TL', '12.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="salvar" class="product-section">
+      <h2 class="category-title">Şalvar</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <img src="13.jpg" alt="Model 13" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 13</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 13', '500 TL', '13.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <img src="14.jpg" alt="Model 14" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 14</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 14', '500 TL', '14.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <img src="15.jpg" alt="Model 15" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 15</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 15', '500 TL', '15.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="tunik" class="product-section">
+      <h2 class="category-title">Tunik</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <img src="16.jpg" alt="Model 16" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 16</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 16', '500 TL', '16.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <img src="17.jpg" alt="Model 17" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 17</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 17', '500 TL', '17.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <img src="18.jpg" alt="Model 18" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 18</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 18', '500 TL', '18.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="yelek-ceket" class="product-section">
+      <h2 class="category-title">Yelek/Ceket</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <img src="19.jpg" alt="Model 19" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 19</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 19', '500 TL', '19.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <img src="20.jpg" alt="Model 20" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 20</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 20', '500 TL', '20.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <img src="21.jpg" alt="Model 21" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Model 21</h3>
+            <p class="product-price">500 TL</p>
+            <button class="add-to-cart" onclick="addToCart('Model 21', '500 TL', '21.jpg')">
+              Sepete Ekle
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+  </div>
+  
+  <!-- Hızlı görüntüleme modalı -->
+  <div id="quickViewModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="modal-body">
+        <div class="modal-image">
+          <img id="modalImage" src="" alt="">
+        </div>
+        <div class="modal-info">
+          <h2 id="modalTitle"></h2>
+          <p id="modalPrice"></p>
+          <p id="modalStock"></p>
+          <p id="modalDescription"></p>
+          <button id="modalAddToCart" class="add-to-cart">Sepete Ekle</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <p>&copy; 2025 Ender Tekstil. Tüm hakları saklıdır.</p>
+  </footer>
+  
+  <script>
+    // Hızlı görüntüleme fonksiyonları
+    function showQuickView(name, price, image, stock, description) {
+      document.getElementById('modalTitle').textContent = name;
+      document.getElementById('modalPrice').textContent = price;
+      document.getElementById('modalStock').textContent = `Stok Durumu: ${stock} adet`;
+      document.getElementById('modalDescription').textContent = description;
+      document.getElementById('modalImage').src = image;
+      document.getElementById('modalAddToCart').onclick = () => addToCart(name, price, image);
+      
+      document.getElementById('quickViewModal').style.display = 'block';
+    }
+
+    // Modal kapatma
+    document.querySelector('.close-modal').onclick = function() {
+      document.getElementById('quickViewModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('quickViewModal');
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    }
+
+    function showCategory(categoryId) {
+      // Karşılama mesajını gizle
+      document.getElementById('welcomeMessage').classList.add('hidden');
+      
+      // Tüm ürün bölümlerini gizle
+      const sections = document.querySelectorAll('.product-section');
+      sections.forEach(section => {
+        section.style.display = 'none';
+      });
+      
+      // Seçilen kategoriyi göster
+      const selectedSection = document.getElementById(categoryId);
+      if (selectedSection) {
+        selectedSection.style.display = 'block';
+      }
+      
+      // Aktif kategori butonunu vurgula
+      const buttons = document.querySelectorAll('.category-nav a');
+      buttons.forEach(button => {
+        button.classList.remove('active');
+      });
+      event.target.classList.add('active');
+    }
+
+    // Sepetteki ürün sayısını güncelle
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      document.getElementById('cartCount').textContent = cart.length;
+    }
+
+    // Sayfa yüklendiğinde sepet sayısını güncelle
+    document.addEventListener('DOMContentLoaded', updateCartCount);
+
+    // Sepete ürün eklendiğinde sayıyı güncelle
+    const originalAddToCart = window.addToCart;
+    window.addToCart = function(...args) {
+      originalAddToCart.apply(this, args);
+      updateCartCount();
+    };
+  </script>
+</body>
+</html>
+
+
